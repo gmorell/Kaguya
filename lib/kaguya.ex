@@ -37,7 +37,7 @@ defmodule Kaguya do
     require Logger
     Logger.log :debug, "Starting bot!"
 
-    :pg.start()
+    :pg.start(:default)
     :pg.create(:modules)
     :pg.create(:channels)
 
