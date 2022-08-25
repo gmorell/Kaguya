@@ -38,8 +38,8 @@ defmodule Kaguya do
     Logger.log :debug, "Starting bot!"
 
     :pg.start(:default)
-    :pg.create(:modules)
-    :pg.create(:channels)
+    #:pg.create(:modules)
+    #:pg.create(:channels)
 
     :ets.new(:channels, [:set, :named_table, :public, {:read_concurrency, true}, {:write_concurrency, true}])
     :ets.new(:modules, [:set, :named_table, :public, {:read_concurrency, true}, {:write_concurrency, true}])

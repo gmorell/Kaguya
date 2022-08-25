@@ -46,7 +46,7 @@ defmodule Kaguya.Core do
   end
 
   def handle_info(:rejoin_chan, state) do
-    :pg.get_members(:channels) |> send(:join)
+    :pg.get_members(:default, :channels) |> send(:join)
     {:noreply, state}
   end
 

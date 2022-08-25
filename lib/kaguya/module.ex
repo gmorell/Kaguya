@@ -42,7 +42,7 @@ defmodule Kaguya.Module do
       def init(:ok) do
         require Logger
         Logger.log :debug, "Started module #{@module_name}!"
-        :pg.join(:modules, self())
+        :pg.join(:default, :modules, self())
         :ets.insert(:modules, {@module_name, self()})
         table_name = String.to_atom "#{@module_name}_tasks"
         :ets.new(@task_table, [:set, :public, :named_table, {:read_concurrency, true}, {:write_concurrency, true}])
@@ -55,7 +55,7 @@ defmodule Kaguya.Module do
 
       def handle_cast(:unload, state) do
         require Logger
-        :pg.leave(:modules, self())
+        :pg.leave(:default, :modules, self())
         module_unload()
         Logger.log :debug, "Unloaded module #{@module_name}!"
         {:noreply, state}
@@ -63,7 +63,7 @@ defmodule Kaguya.Module do
 
       def handle_cast(:load, state) do
         require Logger
-        :pg.join(:modules, self())
+        :pg.join(:default, :modules, self())
         module_load()
         Logger.log :debug, "Loaded module #{@module_name}!"
         {:noreply, state}
