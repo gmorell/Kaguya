@@ -119,7 +119,7 @@ defmodule Kaguya.Module.Core do
   Changes a user's nick internally in a channel.
   """
   defh changeUserNick(%{trailing: new_nick, user: %{nick: old_nick}}) do
-    for member <- :pg2.get_members(:channels), do: GenServer.call(member, {:rename_user, {old_nick, new_nick}})
+    for member <- :pg.get_members(:channels), do: GenServer.call(member, {:rename_user, {old_nick, new_nick}})
   end
 
   @doc """
@@ -148,7 +148,7 @@ defmodule Kaguya.Module.Core do
   Remove a user from all channels.
   """
   defh removeNickFromAllChans(%{user: %{nick: nick}}) do
-    for member <- :pg2.get_members(:channels), do: GenServer.call(member, {:del_user, nick})
+    for member <- :pg.get_members(:channels), do: GenServer.call(member, {:del_user, nick})
   end
 
   @doc """

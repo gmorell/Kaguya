@@ -46,7 +46,7 @@ defmodule Kaguya.Core do
   end
 
   def handle_info(:rejoin_chan, state) do
-    :pg2.get_members(:channels) |> send(:join)
+    :pg.get_members(:channels) |> send(:join)
     {:noreply, state}
   end
 
@@ -146,7 +146,7 @@ defmodule Kaguya.Core do
     Logger.log :debug, "Received: #{raw_message}"
     try do
       message = Kaguya.Core.Parser.parse_raw_to_message(raw_message)
-      for member <- :pg2.get_members(:modules), do: GenServer.cast(member, {:msg, message})
+      for member <- :pg.get_members(:modules), do: GenServer.cast(member, {:msg, message})
     rescue
       MatchError -> Logger.log :warn, "Bad Message: #{raw_message}"
     end

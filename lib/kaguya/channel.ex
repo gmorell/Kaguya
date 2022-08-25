@@ -35,7 +35,7 @@ defmodule Kaguya.Channel do
     require Logger
     Logger.log :debug, "Started channel #{name}!"
     Util.joinChan(name)
-    :pg2.join(:channels, self())
+    :pg.join(:channels, self())
     :ets.insert(:channels, {name, self()})
     users = :ets.new(:users, [:set, :protected])
     {:ok, {name, users, []}}
